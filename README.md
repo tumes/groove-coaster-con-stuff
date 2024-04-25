@@ -4,4 +4,4 @@ This will technically work for custom controllers as well, but this is how I con
 
 ## Using the custom board
 
-Move `nintendoswitchleonardo.json` into your platformio `core_dir/platforms/atmelavr/boards` directory to use the custom board with the expected HWID/PID values. I tried to do it with in-situ configuration in platformio.ini with no luck, but I'll see if I can get that working since ideally this should require all that faffing.
+Move `nintendoswitchleonardo.json` into your platformio `core_dir/platforms/atmelavr/boards` directory to use the custom board with the expected HWID/PID values. I tried to do it with in-situ configuration in platformio.ini with no luck, but I'll see if I can get that working since ideally this shouldn't require all that faffing.
