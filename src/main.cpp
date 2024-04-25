@@ -2,6 +2,9 @@
 
 #include <NintendoSwitchControlLibrary.h>
 
+// Pin setup. I generally went in order but tackled the LED buttons after the
+// fact, so if I had to do it over again, I'd cluster them with their respective
+// button sensors.
 const byte HatPins[] = {0, 1, 2, 3};
 const byte HatPinCount = sizeof(HatPins) / sizeof(HatPins[0]);
 const byte ButtonPins[] = {4, 5, 6, 7};
@@ -9,9 +12,9 @@ const byte ButtonCount = sizeof(ButtonPins) / sizeof(ButtonPins[0]);
 const uint16_t ButtonConstants[] = {Button::X, Button::A, Button::B, Button::Y};
 const byte LedButtonPins[] = {8, 9, 10};
 const byte LedButtonCount = sizeof(LedButtonPins) / sizeof(LedButtonPins[0]);
-const uint16_t LedButtonConstants[] = {Button::L, Button::R,
-                                       Button::PLUS};
+const uint16_t LedButtonConstants[] = {Button::L, Button::R, Button::PLUS};
 const byte LedPins[] = {16, 14, 15};
+// Some jank to get 8 directions out of 4 switches.
 const int HatVals[] = {1, 2, 4, 8};
 
 void setup() {
@@ -28,6 +31,12 @@ void setup() {
 }
 
 void loop() {
+  // I hate this code but I'm a web developer, so I have no clue how to do this
+  // idiomatically. Big ups to ChatpGPT, which I asked to try to improve this
+  // code and which gave me something so compact and cryptic it took me an hour
+  // to figure out that it was all hallucinated BS. In short this makes the 8
+  // directions work.
+  // This correlates to the left dome on the ASC.
   int hatVal = Hat::NEUTRAL;
   int sum = 0;
   for (int i = 0; i < HatPinCount; i++) {
@@ -66,6 +75,7 @@ void loop() {
   }
   SwitchControlLibrary().pressHatButton(hatVal);
 
+  // This correlates to the right dome on the ASC.
   for (int i = 0; i < ButtonCount; i++) {
     if (digitalRead(ButtonPins[i]) == LOW) {
       SwitchControlLibrary().pressButton(ButtonConstants[i]);
@@ -73,6 +83,7 @@ void loop() {
       SwitchControlLibrary().releaseButton(ButtonConstants[i]);
     }
   }
+  // This handles the dome buttons and the ASC start button.
   for (int i = 0; i < LedButtonCount; i++) {
     if (digitalRead(LedButtonPins[i]) == LOW) {
       SwitchControlLibrary().pressButton(LedButtonConstants[i]);
