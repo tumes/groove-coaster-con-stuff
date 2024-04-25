@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <EEPROM.h>
+// #include <EEPROM.h>
 
 #include <NintendoSwitchControlLibrary.h>
 
@@ -10,11 +10,12 @@ const byte ButtonCount = sizeof(ButtonPins) / sizeof(ButtonPins[0]);
 const uint16_t ButtonConstants[] = {Button::X, Button::A, Button::B, Button::Y};
 const byte LedButtonPins[] = {8, 9, 10};
 const byte LedButtonCount = sizeof(LedButtonPins) / sizeof(LedButtonPins[0]);
-const uint16_t LedButtonConstants[] = {Button::LCLICK, Button::RCLICK, Button::PLUS};
-const byte LedPins[] = {16, 14,15};
-const byte StartPin = 10;
-const byte DomePin = 18;
-const int eeAddress = 450;
+const uint16_t LedButtonConstants[] = {Button::L, Button::R,
+                                       Button::PLUS};
+const byte LedPins[] = {16, 14, 15};
+// const byte StartPin = 10;
+// const byte DomePin = 18;
+// const int eeAddress = 450;
 const int HatVals[] = {1, 2, 4, 8};
 
 void setup() {
@@ -28,22 +29,22 @@ void setup() {
     pinMode(LedButtonPins[i], INPUT_PULLUP);
     pinMode(LedPins[i], OUTPUT);
   }
-  pinMode(DomePin, OUTPUT);
-  delay(100);
+  // pinMode(DomePin, OUTPUT);
+  // delay(100);
 
-  if (digitalRead(StartPin) == LOW) {
-    byte currentValue = EEPROM.read(eeAddress);
+  // if (digitalRead(StartPin) == LOW) {
+  //   byte currentValue = EEPROM.read(eeAddress);
+  //
+  //   EEPROM.write(eeAddress, !currentValue);
+  // }
 
-    EEPROM.write(eeAddress, !currentValue);
-  }
+  // byte domeIsOn = EEPROM.read(eeAddress);
 
-  byte domeIsOn = EEPROM.read(eeAddress);
-
-  if (domeIsOn) {
-    digitalWrite(DomePin, HIGH);
-  } else {
-    digitalWrite(DomePin, LOW);
-  }
+  // if (domeIsOn) {
+  //   digitalWrite(DomePin, HIGH);
+  // } else {
+  //   digitalWrite(DomePin, LOW);
+  // }
 }
 
 void loop() {
@@ -74,7 +75,8 @@ void loop() {
         hatVal = Hat::DOWN_LEFT;
         break;
       case 8:
-        hatVal = Hat::LEFT;;
+        hatVal = Hat::LEFT;
+        ;
         break;
       case 9:
         hatVal = Hat::UP_LEFT;
